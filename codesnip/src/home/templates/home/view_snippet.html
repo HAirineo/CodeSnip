@@ -1,0 +1,84 @@
+{% extends "home/base.html" %}
+
+{% block content %}
+
+  
+  <div class="mainContent">
+
+    <div class="namecontent"> 
+      <p>{{snippet.title}}</p>
+    </div>
+
+    <div class="innercontent">
+      <p><pre>{{ snippet.content }}</pre></p>
+    </div>
+
+    <div class="tagcontent">    
+      <table>
+        <tr>
+          <th width = "70%"><p>Tags: {{snippet.tags}}</p></th>
+          <th align="right" width = "30%"><p>By: {{snippet.author}}</p></th>        
+        </tr>
+      </table>
+      <hr>
+      <table>
+        <tr>
+          <th><p>Up Votes: {{snippet.upvotes}} &nbsp;&nbsp;&nbsp;&nbsp; Down Votes: {{snippet.downvotes}}</p></th>
+          <th align="right" width = "30%"><p>Posted on: {{snippet.timestamp}}</p></th>       
+        </tr>
+      </table>
+    </div>
+
+  </div>
+
+  <table class='tableVote'>
+    <tr>
+      <form width = '100%' method='GET' action='{% url 'upvote_snippet' id=snippet.id %}'>
+      <th class = "voteContent">
+        
+          <input class='menuBtn' type="submit" value="Up Vote">
+        
+      </th>
+      </form>
+      <form method='GET' action='{% url 'downvote_snippet' id=snippet.id %}'>
+      <th class = "voteContent">
+        
+          <input class='menuBtn' type="submit" value="Down Vote">
+        
+      </th>
+      </form>
+
+      {% if snippet.author == request.user.username or request.user.is_superuser %}
+      <form method='GET' action='{% url 'edit_snippet' id=snippet.id %}'>
+      <th class = "voteContent">
+        
+          <input class='menuBtn'  type="submit" value="Edit">
+        
+      </th>
+      </form>
+
+
+      <form method='GET' action='{% url 'delete_snippet' id=snippet.id %}'>
+      <th class = "voteContent">
+        
+          <input class='menuBtn'  type="submit" value="Delete">
+        
+      </th>
+      </form>
+      {% else %}
+
+      <th class = "voteContent">
+      </th>
+
+
+      <th class = "voteContent">
+      </th>
+
+      {% endif %}
+    </tr>
+  </table>
+
+  <div class="fb-comments-container">
+  <div class="fb-comments" data-href="https://developers.facebook.com/docs/plugins/comments#configurator" data-numposts="5"></div>
+  </div>
+{% endblock content %}

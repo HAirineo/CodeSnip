@@ -1,0 +1,29 @@
+{% extends "home/base.html" %}
+
+{% block content %}
+
+<div class="signcontent">
+	<div class="signtContent"><p>Log In</p></div>
+
+	<div class="signinContent">
+		{% if error_message %}
+		<p class = "err">{{ error_message }}</p>
+		{% endif %}
+	  	<form class="subform" method='POST' action="{% url 'login_user' %}" enctype="multipart/form-data">
+	    {% csrf_token %}
+	        <label for="id_username">
+	            Username:
+	        </label>
+	        <input id="id_username" maxlength="30" name="username" type="text">
+
+	        <label for="id_password">
+	            Password:
+	        </label>
+	        <input id="id_password" maxlength="30" name="password" type="password">
+
+	        <input class="subform" type="submit" value="Submit">
+	  	</form>
+  </div>
+</div>
+
+{% endblock content %}

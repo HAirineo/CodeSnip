@@ -1,0 +1,20 @@
+{% extends "home/base.html" %}
+
+{% block content %}
+
+<div class="mainContent">
+	{% if request.path == vsubmit %}
+		<div class="namecontent"><p>Submit a Snippet</p></div>
+	{% else %}
+		<div class="namecontent"><p>Edit a Snippet</p></div>
+	{% endif %}
+	<form class="subform" method='POST' action='{% ifequal request.path vsubmit %}{% url 'add_snippet' %}{% endifequal %}'>
+	{% csrf_token %}
+
+	{{value|linebreaks}}{{form}}
+
+	<input class="subform" type="submit" value="Submit">
+	</form>
+</div>
+
+{% endblock content %}

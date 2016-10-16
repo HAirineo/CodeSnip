@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>CodeSnip</title>
+  <meta charset="utf-8" />
+  {% load static %}
+  <link rel="stylesheet" href="{% static '/home/css/style.css' %}" type="text/css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      background-image: url('{% static '/home/img/bg.png' %}');
+      }
+
+
+    .imgHeader {
+      background-image: url('{% static '/home/img/header.jpg' %}');
+      width: 100%;
+      display:block;
+      height:200px;
+    }
+
+    .search input[type=text] {
+      background-image: url('{% static '/home/img/search.png' %}');
+    }
+
+  </style>
+
+</head>
+
+
+<body class="body">
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+
+  <header class="mainHeader">
+    <div class="imgHeader"></div>
+    {% url 'home' as vhome %}
+    {% url 'view_snippet' as vview %}
+    {% url 'edit_snippet' as vedit %}
+    {% url 'submit' as vsubmit %}
+    <nav><ul>
+
+
+      <li class="logo"><a href="{% url 'home' %}">CodeSnip</a></li>
+      {% if request.path == vhome or request.path == rqust %}
+        <li class="active"><a href="{% url 'home' %}">Home</a></li>
+      {% else %}
+        <li><a href="{% url 'home' %}">Home</a></li>
+      {% endif %}
+      <li class="{% ifequal request.path vsubmit %}active{% endifequal %}"><a href="{% url 'submit' %}">Submit a Snippet</a></li>
+    </ul></nav>
+    <div class="loginBar">
+      {% if request.user.username == "" %}
+        No Account? <a href="{% url 'register' %}">Register</a> | <a href="{% url 'login_user' %}">Sign In</a>
+      {% else %}
+        Welcome, {{request.user.username}} | <a href="{% url 'logout_user' %}">Logout</a>
+      {% endif %}
+    </div>
+  </header>
+
+{% block content %}{% endblock content %}
+
+</body>
+
+</html>

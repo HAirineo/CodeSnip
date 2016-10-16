@@ -1,0 +1,67 @@
+{% extends "home/base.html" %}
+
+{% block content %}
+<div class="search">
+  <form class="search" method='GET' action=''>
+    <input class = "search" type="text" placeholder = 'Search Snippets' name="q" />
+    <input class = "search" type="submit" value="Sort by Name" name="s"/>
+    <input class = "search" type="submit" value="Sort by Date" name="s"/>
+    <input class = "search" type="submit" value="Sort by Up Votes" name="s"/>
+    <input class = "search" type="submit" value="Sort by Down Votes" name="s"/>
+  </form>
+</div>
+{% for snippet in snippets %}
+{% csrf_token %}
+
+  <div class="mainContent">
+
+    <div class="namecontent"> 
+      <p> <a href="{% url "view_snippet" id=snippet.id %}">{{snippet.title}}</a></p>
+    </div>
+
+    <div class="innercontent">
+
+      <p><pre>{{ snippet.content|slice:":225"}}{% if snippet.content|length > 255 %} . . . {% endif %}</pre></p>
+
+    </div>
+
+
+
+    <div class="tagcontent">    
+      <table>
+        <tr>
+          <th width = "70%"><p>Tags: {{snippet.tags}}</p></th>
+          <th align="right" width = "30%"><p>By: {{snippet.author}}</p></th>        
+        </tr>
+      </table>
+      <hr>
+      <table>
+        <tr>
+          <th><p>Up Votes: {{snippet.upvotes}} &nbsp;&nbsp;&nbsp;&nbsp; Down Votes: {{snippet.downvotes}}</p></th>
+          <th align="right" width = "30%"><p>Posted on: {{snippet.timestamp}}</p></th>       
+        </tr>
+      </table>
+    </div>
+
+  </div>
+
+{% endfor %}
+
+{% url 'home' as pagepath %}
+<div class="center">
+  <ul class="pagination">
+    {% if snippets.has_previous %}
+    <li><a href="?{{page_request_var}}={{ snippets.previous_page_number }}">«</a></li>
+    {% endif %}
+
+    {% for n in range %}
+    <li><a class="{% ifequal snippets.number n %}active{% endifequal %}" href="?{{page_request_var}}={{n}}">{{n}}</a></li>
+    {% endfor %}
+
+    {% if snippets.has_next %}
+    <li><a href="?{{page_request_var}}={{ snippets.next_page_number }}">»</a></li>
+    {% endif %}
+  </ul>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,28 @@
+{% extends "home/base.html" %}
+
+{% block content %}
+
+<div class="signcontent">
+	<div class="signtContent"><p>Register</p></div>
+	<div class="signinContent">
+		{% if error_message %}
+		<p class = "err">{{ error_message }}</p>
+		{% endif %}
+	  	<form class="subform" method='POST' action="{% url 'register' %}" enctype="multipart/form-data">
+	    {% csrf_token %}
+			{% for field in form %}
+
+
+			<span>{{ field.errors }}</span>
+			<label>{{ field.label_tag }}</label>
+			<div>{{ field }}</div>
+
+			{% endfor %}
+
+	        <input class="subform" type="submit" value="Submit">
+	  	</form>
+  </div>
+</div>
+
+
+{% endblock content %}
